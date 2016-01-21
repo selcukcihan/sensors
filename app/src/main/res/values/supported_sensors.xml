@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="supported_sensors">
+        <item>1:accelerometer</item><!--TYPE_ACCELEROMETER-->
+        <item>18:step_counter</item><!--TYPE_STEP_COUNTER-->
+        <item>6:pressure</item><!--TYPE_PRESSURE-->
+        <item>4:gyroscope</item><!--TYPE_GYROSCOPE-->
+        <item>2:magnetic_field</item><!--TYPE_MAGNETIC_FIELD-->
+        <item>13:ambient_temperature</item><!--TYPE_AMBIENT_TEMPERATURE-->
+        <item>8:proximity</item><!--TYPE_PROXIMITY-->
+        <item>9:gravity</item><!--TYPE_GRAVITY-->
+    </string-array>
+</resources>
