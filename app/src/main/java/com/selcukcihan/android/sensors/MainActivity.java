@@ -1,11 +1,14 @@
 package com.selcukcihan.android.sensors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -15,8 +18,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    public final static String EXTRA_SENSOR_TYPE = "com.selcukcihan.android.sensors.SENSOR_TYPE";
+    public final static String EXTRA_SENSOR_IMAGE = "com.selcukcihan.android.sensors.SENSOR_IMAGE";
+
     SensorManager smm;
-    List<Sensor> sensors;
+    Sensor[] sensors;
     ListView lv;
     private final HashMap<Integer, Integer> sensorMap = new HashMap<Integer, Integer>();
 
@@ -24,12 +30,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Sensor[] values = initializeSensors();
-
-        lv.setAdapter(new SensorAdapter(this, values, sensorMap));
+        initializeSensors();
+        lv.setAdapter(new SensorAdapter(this, sensors, sensorMap));
     }
 
-    private Sensor[] initializeSensors() {
+    private void initializeSensors() {
         String[] sensorsAndImages = getResources().getStringArray(R.array.supported_sensors);
         for(String simg : sensorsAndImages) {
             String[] pair = simg.split(":");
@@ -42,16 +47,23 @@ public class MainActivity extends AppCompatActivity {
 
         smm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         lv = (ListView) findViewById(R.id.listView);
-        sensors = smm.getSensorList(Sensor.TYPE_ALL);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(MainActivity.this.sensors[position].getType())); //Optional parameters
+                intent.putExtra(EXTRA_SENSOR_IMAGE, Integer.toString(MainActivity.this.sensorMap.get(MainActivity.this.sensors[position].getType()))); //Optional parameters
+                MainActivity.this.startActivity(intent);
+            }
+        });
+        List<Sensor> allSensors = smm.getSensorList(Sensor.TYPE_ALL);
         List<Sensor> filteredSensors = new ArrayList<Sensor>();
 
-        for(Sensor s : sensors) {
+        for(Sensor s : allSensors) {
             if (sensorMap.containsKey(s.getType())) {
                 filteredSensors.add(s);
             }
         }
-        Sensor[]values = filteredSensors.toArray(new Sensor[filteredSensors.size()]);
-        return values;
+        sensors = filteredSensors.toArray(new Sensor[filteredSensors.size()]);
     }
 }
 
