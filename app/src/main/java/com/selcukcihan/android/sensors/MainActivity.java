@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Integer imageId = MainActivity.this.sensorMap.get(MainActivity.this.sensors[position].getType());
                 String sensorName = getResources().getResourceEntryName(imageId);
-                Integer stringId = getResources().getIdentifier(sensorName + "_string", "strings", getPackageName());
+                Integer stringId = getResources().getIdentifier(sensorName + "_string", "string", getPackageName());
                 String sensorString = getResources().getString(stringId);
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(MainActivity.this.sensors[position].getType()));
