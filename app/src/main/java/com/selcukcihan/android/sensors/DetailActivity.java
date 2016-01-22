@@ -29,12 +29,14 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
 
         Intent intent = getIntent();
         String sensorType = intent.getStringExtra(MainActivity.EXTRA_SENSOR_TYPE);
+        String sensorName = intent.getStringExtra(MainActivity.EXTRA_SENSOR_NAME);
         String sensorImage = intent.getStringExtra(MainActivity.EXTRA_SENSOR_IMAGE);
 
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Integer.parseInt(sensorType));
         ((ImageView)findViewById(R.id.sensor_big)).setImageResource(Integer.parseInt(sensorImage));
-        ((TextView)findViewById(R.id.header)).setText(sensor.getName());
+        ((TextView)findViewById(R.id.header)).setText(sensorName);
+        ((TextView)findViewById(R.id.name)).setText(sensor.getName());
         ((TextView)findViewById(R.id.vendor)).setText(sensor.getVendor());
     }
 

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Sensörler</string>
+    <string name="title_activity_main">Sensörler</string>
+    <string name="title_activity_detail">Sensör</string>
+    <string name="accelerometer_string">accelerometer</string>
+    <string name="step_counter_string">adım sayacı</string>
+    <string name="pressure_string">basınç sensörü</string>
+    <string name="gyroscope_string">gyroscope</string>
+    <string name="magnetic_field_string">manyetik alan sensörü</string>
+    <string name="ambient_temperature_string">sıcaklık sensörü</string>
+    <string name="proximity_string">uzaklık sensörü</string>
+    <string name="gravity_string">yerçekimi sensörü</string>
+    <string name="reading_one">Birinci değer</string>
+    <string name="reading_two">İkinci değer</string>
+    <string name="reading_three">Üçüncü değer</string>
+</resources>

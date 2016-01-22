@@ -12,7 +12,6 @@
     tools:context="com.selcukcihan.android.sensors.DetailActivity"
     tools:showIn="@layout/activity_detail">
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,7 +23,6 @@
         android:longClickable="true"
         android:layout_toLeftOf="@+id/header"
         android:layout_toStartOf="@+id/header" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,14 +32,23 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@+id/sensor_big" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Name"
+        android:id="@+id/name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/sensor_big"
+        android:layout_marginTop="53dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Vendor"
         android:id="@+id/vendor"
-        android:layout_below="@+id/sensor_big"
+        android:layout_below="@+id/name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="53dp" />
@@ -50,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="@string/reading_one"
         android:id="@+id/reading1"
         android:layout_below="@+id/vendor"
         android:layout_alignParentLeft="true"
@@ -70,7 +77,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="@string/reading_two"
         android:id="@+id/reading2"
         android:layout_below="@+id/reading1"
         android:layout_alignParentLeft="true"
@@ -83,13 +90,14 @@
         android:id="@+id/reading2_value"
         android:layout_alignTop="@+id/reading2"
         android:layout_toRightOf="@id/reading2"
-        android:layout_marginLeft="51dp"/>
+        android:layout_alignStart="@id/reading1_value"
+        android:layout_alignLeft="@id/reading1_value" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
+        android:text="@string/reading_three"
         android:id="@+id/reading3"
         android:layout_below="@+id/reading2"
         android:layout_alignParentLeft="true"
@@ -102,5 +110,7 @@
         android:id="@+id/reading3_value"
         android:layout_alignTop="@+id/reading3"
         android:layout_toRightOf="@id/reading3"
-        android:layout_marginLeft="51dp"/>
+        android:layout_alignStart="@id/reading2_value"
+        android:layout_alignLeft="@id/reading2_value" />
+
 </RelativeLayout>

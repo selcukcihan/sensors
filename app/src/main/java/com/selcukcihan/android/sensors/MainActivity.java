@@ -19,6 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_SENSOR_TYPE = "com.selcukcihan.android.sensors.SENSOR_TYPE";
+    public final static String EXTRA_SENSOR_NAME = "com.selcukcihan.android.sensors.SENSOR_NAME";
     public final static String EXTRA_SENSOR_IMAGE = "com.selcukcihan.android.sensors.SENSOR_IMAGE";
 
     SensorManager smm;
@@ -49,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listView);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Integer imageId = MainActivity.this.sensorMap.get(MainActivity.this.sensors[position].getType());
+                String sensorName = getResources().getResourceEntryName(imageId);
+                Integer stringId = getResources().getIdentifier(sensorName + "_string", "strings", getPackageName());
+                String sensorString = getResources().getString(stringId);
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(MainActivity.this.sensors[position].getType())); //Optional parameters
-                intent.putExtra(EXTRA_SENSOR_IMAGE, Integer.toString(MainActivity.this.sensorMap.get(MainActivity.this.sensors[position].getType()))); //Optional parameters
+                intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(MainActivity.this.sensors[position].getType()));
+                intent.putExtra(EXTRA_SENSOR_NAME, sensorString);
+                intent.putExtra(EXTRA_SENSOR_IMAGE, Integer.toString(imageId));
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -66,4 +72,3 @@ public class MainActivity extends AppCompatActivity {
         sensors = filteredSensors.toArray(new Sensor[filteredSensors.size()]);
     }
 }
-
