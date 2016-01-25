@@ -13,17 +13,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class SensorAdapter extends ArrayAdapter<Sensor> {
+public class SensorAdapter extends ArrayAdapter<SensorWrapper> {
     private final Context context;
-    private final Sensor[] values;
-    private final HashMap<Integer, Integer> sensorMap;
+    private final SensorWrapper[] values;
 
-    public SensorAdapter(Context _context, Sensor[] values, HashMap<Integer, Integer> sensorMap) {
+    public SensorAdapter(Context _context, SensorWrapper[] values) {
 
         super(_context, 0, values);
         this.context = _context;
         this.values = values;
-        this.sensorMap = sensorMap;
     }
 
     @Override
@@ -36,11 +34,7 @@ public class SensorAdapter extends ArrayAdapter<Sensor> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.sensor_icon);
         textView.setText(values[position].getName());
 
-        // Change icon based on name
-        String s = values[position].toString();
-
-        System.out.println(s);
-        imageView.setImageResource(this.sensorMap.get(values[position].getType()));
+        imageView.setImageResource(values[position].getImageId());
 
         return rowView;
     }

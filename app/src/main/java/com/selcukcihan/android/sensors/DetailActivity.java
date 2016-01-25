@@ -55,7 +55,11 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
     public void onSensorChanged(SensorEvent event) {
         values = event.values;
         ((TextView)findViewById(R.id.reading1_value)).setText(Float.toString(values[0]));
-        ((TextView)findViewById(R.id.reading2_value)).setText(Float.toString(values[1]));
-        ((TextView)findViewById(R.id.reading3_value)).setText(Float.toString(values[2]));
+        if (values.length > 1) {
+            ((TextView)findViewById(R.id.reading2_value)).setText(Float.toString(values[1]));
+            if (values.length > 2) {
+                ((TextView)findViewById(R.id.reading3_value)).setText(Float.toString(values[2]));
+            }
+        }
     }
 }

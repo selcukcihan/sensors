@@ -7,9 +7,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
 
 import java.io.Console;
@@ -23,52 +25,64 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_SENSOR_IMAGE = "com.selcukcihan.android.sensors.SENSOR_IMAGE";
 
     SensorManager smm;
-    Sensor[] sensors;
-    ListView lv;
-    private final HashMap<Integer, Integer> sensorMap = new HashMap<Integer, Integer>();
+    SensorWrapper[] sensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         initializeSensors();
-        lv.setAdapter(new SensorAdapter(this, sensors, sensorMap));
+        initializeGridView();
+    }
+    private void onItemClickHelper(AdapterView<?> parent, View view, int position, long id) {
+        SensorWrapper sensor = MainActivity.this.sensors[position];
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(sensor.getType()));
+        intent.putExtra(EXTRA_SENSOR_NAME, sensor.getLocalizedName());
+        intent.putExtra(EXTRA_SENSOR_IMAGE, Integer.toString(sensor.getImageId()));
+        MainActivity.this.startActivity(intent);
+    }
+    private void initializeListView() {
+        ListView lv = (ListView) findViewById(R.id.listView);
+        lv.setAdapter(new SensorAdapter(this, sensors));
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MainActivity.this.onItemClickHelper(parent, view, position, id);
+            }
+        });
+    }
+
+    private void initializeGridView() {
+        GridView gridview = (GridView) findViewById(R.id.gridView);
+        gridview.setAdapter(new TileAdapter(this, sensors));
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MainActivity.this.onItemClickHelper(parent, view, position, id);
+            }
+        });
     }
 
     private void initializeSensors() {
+        HashMap<Integer, String> sensorMap = new HashMap<Integer, String>();
         String[] sensorsAndImages = getResources().getStringArray(R.array.supported_sensors);
         for(String simg : sensorsAndImages) {
             String[] pair = simg.split(":");
             int sensorId = Integer.parseInt(pair[0]);
-            String imageName = pair[1];
-            int resourceId = getResources().getIdentifier(imageName, "mipmap", getPackageName());
-            System.out.println(imageName + " - " + sensorId + " - " + resourceId);
-            sensorMap.put(sensorId, resourceId);
+            sensorMap.put(sensorId, pair[1]);
         }
-
         smm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        lv = (ListView) findViewById(R.id.listView);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Integer imageId = MainActivity.this.sensorMap.get(MainActivity.this.sensors[position].getType());
-                String sensorName = getResources().getResourceEntryName(imageId);
-                Integer stringId = getResources().getIdentifier(sensorName + "_string", "string", getPackageName());
-                String sensorString = getResources().getString(stringId);
-                Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(MainActivity.this.sensors[position].getType()));
-                intent.putExtra(EXTRA_SENSOR_NAME, sensorString);
-                intent.putExtra(EXTRA_SENSOR_IMAGE, Integer.toString(imageId));
-                MainActivity.this.startActivity(intent);
-            }
-        });
         List<Sensor> allSensors = smm.getSensorList(Sensor.TYPE_ALL);
-        List<Sensor> filteredSensors = new ArrayList<Sensor>();
+        List<SensorWrapper> filteredSensors = new ArrayList<SensorWrapper>();
 
         for(Sensor s : allSensors) {
             if (sensorMap.containsKey(s.getType())) {
-                filteredSensors.add(s);
+                filteredSensors.add(new SensorWrapper(this, s, sensorMap.get(s.getType())));
             }
         }
-        sensors = filteredSensors.toArray(new Sensor[filteredSensors.size()]);
+        sensors = filteredSensors.toArray(new SensorWrapper[filteredSensors.size()]);
     }
 }
