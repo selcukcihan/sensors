@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorLight"
+    android:background="@color/primary_light"
     android:padding="5dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_weight="2"
             android:gravity="center"
             android:text="TEXT HERE"
-            android:textColor="@color/colorText"
+            android:textColor="@color/primary_text"
             android:textSize="50px"
             tools:ignore="Suspicious0dp">
         </TextView>

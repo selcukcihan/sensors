@@ -13,4 +13,7 @@
     <string name="reading_one">Birinci değer</string>
     <string name="reading_two">İkinci değer</string>
     <string name="reading_three">Üçüncü değer</string>
+    <string name="readings">Okunan değerler</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

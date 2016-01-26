@@ -13,4 +13,8 @@
     <string name="reading_one">First value</string>
     <string name="reading_two">Second value</string>
     <string name="reading_three">Third value</string>
+    <string name="readings">Sensor readings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

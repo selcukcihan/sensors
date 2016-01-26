@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorDark"
+    android:background="@color/primary_light"
     android:layout_margin="5dp"
     android:padding="5dp">
 
@@ -23,7 +23,7 @@
         android:text="TEXT HERE"
         android:layout_toRightOf="@id/sensor_icon"
         android:layout_centerVertical="true"
-        android:textColor="@color/colorText"
+        android:textColor="@color/primary_text"
         android:textSize="70px" >
     </TextView>
 
