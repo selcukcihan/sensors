@@ -21,8 +21,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_SENSOR_TYPE = "com.selcukcihan.android.sensors.SENSOR_TYPE";
-    public final static String EXTRA_SENSOR_NAME = "com.selcukcihan.android.sensors.SENSOR_NAME";
-    public final static String EXTRA_SENSOR_IMAGE = "com.selcukcihan.android.sensors.SENSOR_IMAGE";
+    public final static String EXTRA_SENSOR_DESCRIPTOR = "com.selcukcihan.android.sensors.SENSOR_DESCRIPTOR";
 
     SensorManager smm;
     SensorWrapper[] sensors;
@@ -41,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
         SensorWrapper sensor = MainActivity.this.sensors[position];
         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
         intent.putExtra(EXTRA_SENSOR_TYPE, Integer.toString(sensor.getType()));
-        intent.putExtra(EXTRA_SENSOR_NAME, sensor.getLocalizedName());
-        intent.putExtra(EXTRA_SENSOR_IMAGE, Integer.toString(sensor.getImageId()));
+        intent.putExtra(EXTRA_SENSOR_DESCRIPTOR, sensor.getSensorDescriptor());
         MainActivity.this.startActivity(intent);
     }
     private void initializeListView() {

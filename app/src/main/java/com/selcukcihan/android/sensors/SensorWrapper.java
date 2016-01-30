@@ -2,6 +2,9 @@ package com.selcukcihan.android.sensors;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.hardware.SensorManager;
+
+import java.util.List;
 
 public class SensorWrapper {
     private final Context mContext;
@@ -10,12 +13,24 @@ public class SensorWrapper {
 
     private Integer mImageId = null;
     private String mLocalizedName = null;
+    private String mReadingFormatString = null;
+    private String mRawFormatString = null;
 
     public SensorWrapper(Context context, Sensor sensor, String sensorDescriptor) {
         mContext = context;
         mSensor = sensor;
         mSensorDescriptor = sensorDescriptor;
     }
+
+    public SensorWrapper(Context context, Integer sensorType, String sensorDescriptor) {
+        mContext = context;
+        SensorManager smm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = smm.getDefaultSensor(sensorType);
+        mSensorDescriptor = sensorDescriptor;
+    }
+
+    public Sensor getSensor() { return mSensor; }
+    public String getSensorDescriptor() { return mSensorDescriptor; }
 
     public int getType() {
         return mSensor.getType();
@@ -38,6 +53,22 @@ public class SensorWrapper {
             mLocalizedName = capitalizeWords(mContext.getResources().getString(stringId));
         }
         return mLocalizedName;
+    }
+
+    public String getRawFormat() {
+        if (mRawFormatString == null) {
+            Integer stringId = mContext.getResources().getIdentifier(mSensorDescriptor + "_raw_format", "string", mContext.getPackageName());
+            mRawFormatString = capitalizeWords(mContext.getResources().getString(stringId));
+        }
+        return mRawFormatString;
+    }
+
+    public String getDetailText() {
+        if (mReadingFormatString == null) {
+            Integer stringId = mContext.getResources().getIdentifier(mSensorDescriptor + "_detail_text", "string", mContext.getPackageName());
+            mReadingFormatString = mContext.getResources().getString(stringId);
+        }
+        return mReadingFormatString;
     }
 
     private String capitalizeWords(String input) {

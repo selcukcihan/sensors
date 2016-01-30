@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.selcukcihan.android.sensors.PressureFragment">
+    tools:context="com.selcukcihan.android.sensors.PedometerFragment">
 
     <LinearLayout
         android:orientation="vertical"
@@ -16,11 +16,11 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/primary_text"
             android:text="@string/hello_blank_fragment" />
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/pressure_chart"
+        <RelativeLayout
+            android:id="@+id/pedometer_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"/>
+            android:layout_height="match_parent">
+        </RelativeLayout>
     </LinearLayout>
+
 </FrameLayout>

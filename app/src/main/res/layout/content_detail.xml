@@ -15,8 +15,32 @@
         android:id="@+id/sensor_name_vendor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:textSize="20sp"
         android:text="Sensor Adı (Marka)"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/readings"
+        android:layout_below="@+id/sensor_name_vendor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"/>
+    <View
+        android:id="@+id/detail_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/divider"
+        android:layout_below="@+id/readings"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:id="@+id/detail_fragment"
+        android:layout_below="@+id/detail_divider">
+    </FrameLayout>
+    <!--
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,4 +100,5 @@
         android:layout_toRightOf="@id/reading3"
         android:layout_alignStart="@id/reading2_value"
         android:layout_alignLeft="@id/reading2_value" />
+        -->
 </RelativeLayout>

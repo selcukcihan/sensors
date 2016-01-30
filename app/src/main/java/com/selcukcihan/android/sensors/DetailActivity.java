@@ -6,11 +6,15 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,18 +22,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Arrays;
-
 
 public class DetailActivity extends AppCompatActivity implements SensorEventListener {
-    private SensorManager sensorManager;
-    private Sensor sensor;
+    private SensorManager mSensorManager;
+    private SensorWrapper mSensor;
     private ShareActionProvider mShareActionProvider;
     private Intent mShareIntent;
     private String mShareString = "{0}{1}";
-    private String mSensorName = "";
     private String mSensorValues = "";
-    float []values;
+    private TextView mReadingsTextView;
+    private float []mValues;
 
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -71,57 +73,66 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Intent intent = getIntent();
-        String sensorType = intent.getStringExtra(MainActivity.EXTRA_SENSOR_TYPE);
-        mSensorName = intent.getStringExtra(MainActivity.EXTRA_SENSOR_NAME);
-        String sensorImage = intent.getStringExtra(MainActivity.EXTRA_SENSOR_IMAGE);
+        Integer sensorType = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_SENSOR_TYPE));
+        String sensorDescriptor = intent.getStringExtra(MainActivity.EXTRA_SENSOR_DESCRIPTOR);
 
-        //getSupportActionBar().setTitle(sensorName);
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        Sensor sensor = mSensorManager.getDefaultSensor(sensorType);
+        mSensor = new SensorWrapper(this, sensor, sensorDescriptor);
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(mSensorName);
-        ((ImageView)findViewById(R.id.sensor_toolbar_icon)).setImageResource(Integer.parseInt(sensorImage));
+        toolbarTitle.setText(mSensor.getLocalizedName());
+        ((ImageView)findViewById(R.id.sensor_toolbar_icon)).setImageResource(mSensor.getImageId());
 
-        //toolbar.inflateMenu(R.menu.details);
+        ((TextView)findViewById(R.id.sensor_name_vendor)).setText(sensor.getName() + " {" + sensor.getVendor() + "}");
 
-        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Integer.parseInt(sensorType));
-        //((ImageView)findViewById(R.id.sensor_big)).setImageResource(Integer.parseInt(sensorImage));
-        ((TextView)findViewById(R.id.sensor_name_vendor)).setText(sensor.getName() +  " {" + sensor.getVendor() + "}");
-        //((TextView)findViewById(R.id.name)).setText(sensor.getName());
-        //((TextView)findViewById(R.id.vendor)).setText(sensor.getVendor());
+        mReadingsTextView = (TextView)findViewById(R.id.readings);
 
         mShareString = getResources().getString(R.string.share_data);
         initializeShareIntent();
+
+
+        Fragment fragment = SensorFragment.newInstance(sensorType, sensorDescriptor);
+        if (fragment != null) {
+            FragmentManager fragmentManager = this.getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.detail_fragment, fragment);
+            fragmentTransaction.commit();
+        }
     }
 
     protected void onResume() {
         super.onResume();
-        sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mSensor.getSensor(), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     protected void onPause() {
         super.onPause();
-        sensorManager.unregisterListener(this);
+        mSensorManager.unregisterListener(this);
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {  }
 
     public void onSensorChanged(SensorEvent event) {
-        values = event.values;
-        mSensorValues = Float.toString(values[0]);
-        mShareIntent.removeExtra(Intent.EXTRA_TEXT); // Remove previously set values from the intent
-        ((TextView)findViewById(R.id.reading1_value)).setText(Float.toString(values[0]));
-        if (values.length > 1) {
-            mSensorValues +=  " | " + Float.toString(values[1]);
-            ((TextView)findViewById(R.id.reading2_value)).setText(Float.toString(values[1]));
-            if (values.length > 2) {
-                mSensorValues +=  " | " + Float.toString(values[2]);
-                ((TextView)findViewById(R.id.reading3_value)).setText(Float.toString(values[2]));
-            }
+        mValues = event.values;
+
+        Float [] boxed = new Float[mValues.length];
+        for (int i = 0; i < mValues.length; i++) {
+            boxed[i] = new Float(mValues[i]);
         }
-        mShareIntent.putExtra(Intent.EXTRA_TEXT, String.format(mShareString, mSensorName, mSensorValues));
+        mSensorValues = TextUtils.join(" | ", boxed);
+
+        SensorFragment fragment = (SensorFragment)getSupportFragmentManager().findFragmentById(R.id.detail_fragment);
+        String rawReadings = mSensorValues;
+        if (fragment != null) {
+            fragment.refresh(boxed);
+            rawReadings = fragment.getRawReadings(boxed);
+        }
+
+        mReadingsTextView.setText(rawReadings);
+        mShareIntent.removeExtra(Intent.EXTRA_TEXT); // Remove previously set values from the intent
+        mShareIntent.putExtra(Intent.EXTRA_TEXT, String.format(mShareString, mSensor.getLocalizedName(), mSensorValues));
     }
 }
