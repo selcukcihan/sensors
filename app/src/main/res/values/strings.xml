@@ -5,7 +5,7 @@
 
     <string name="accelerometer_string">accelerometer</string>
     <string name="gyroscope_string">gyroscope</string>
-    <string name="magnetic_field_string">magnetif field sensor</string>
+    <string name="magnetic_field_string">magnetic field sensor</string>
     <string name="ambient_temperature_string">ambient temperature sensor</string>
     <string name="proximity_string">proximity sensor</string>
     <string name="gravity_string">gravity sensor</string>
@@ -26,5 +26,9 @@
     <string name="step_counter_detail_text">Displays count of your steps.</string>
     <string name="step_counter_raw_format" translatable="false">[ %1$.0f ]</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="light_string">light sensor</string>
+    <string name="light_detail_text">Displays ambient light level in SI lux units.</string>
+    <string name="light_raw_format">[ %1$.1f ]</string>
+
+    <string name="hello_blank_fragment"></string>
 </resources>

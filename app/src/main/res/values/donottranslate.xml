@@ -9,5 +9,6 @@
         <item>13:ambient_temperature</item><!--TYPE_AMBIENT_TEMPERATURE-->
         <item>8:proximity</item><!--TYPE_PROXIMITY-->
         <item>9:gravity</item><!--TYPE_GRAVITY-->
+        <item>5:light</item><!--TYPE_LIGHT-->
     </string-array>
 </resources>

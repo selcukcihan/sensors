@@ -17,10 +17,10 @@ public abstract class SensorFragment extends Fragment {
     protected static final String ARG_PARAM1 = "param1";
     protected static final String ARG_PARAM2 = "param2";
 
+    protected SensorWrapper mSensor;
+
     private Integer mSensorType;
     private String mSensorDescriptor;
-    private SensorWrapper mSensor;
-
     private TextView mTextView;
 
     abstract View onAfterCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
@@ -72,6 +72,10 @@ public abstract class SensorFragment extends Fragment {
                 break;
             case Sensor.TYPE_STEP_COUNTER:
                 fragment = new PedometerFragment();
+                break;
+            case Sensor.TYPE_LIGHT:
+                fragment = new LuminescenceFragment();
+                break;
             default:
                 break;
         }
