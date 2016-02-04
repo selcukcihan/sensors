@@ -18,20 +18,22 @@ public abstract class SensorFragment extends Fragment {
     protected static final String ARG_PARAM2 = "param2";
 
     protected SensorWrapper mSensor;
+    protected boolean mRefreshText = true;
 
     private Integer mSensorType;
     private String mSensorDescriptor;
     private TextView mTextView;
+    private View mView;
 
     abstract View onAfterCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
     abstract void onRefresh(Object [] values);
 
     public void refresh(Object [] values) {
-        if (mTextView != null) {
+        onRefresh(values);
+        if (mTextView != null && mRefreshText) {
             mTextView.setText(String.format(mSensor.getDetailText(), values));
         }
-        onRefresh(values);
     }
 
     public String getRawReadings(Float [] values) {
@@ -59,9 +61,12 @@ public abstract class SensorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = onAfterCreateView(inflater, container, savedInstanceState);
-        mTextView = (TextView) view.findViewById(R.id.readings_detail);
-        return view;
+        mView = onAfterCreateView(inflater, container, savedInstanceState);
+        mTextView = (TextView) mView.findViewById(R.id.readings_detail);
+        if (mTextView != null && !mRefreshText) {
+            mTextView.setText(mSensor.getDetailText());
+        }
+        return mView;
     }
 
     public static SensorFragment newInstance(Integer sensorType, String sensorDescriptor) {

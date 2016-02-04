@@ -22,7 +22,6 @@ public class LuminescenceFragment extends SensorFragment {
     private double mMaxRange = 100;
 
     public LuminescenceFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -33,6 +32,7 @@ public class LuminescenceFragment extends SensorFragment {
         mImageView = (ImageView) view.findViewById(R.id.luminescence_circle);
         mGradient = (GradientDrawable) mImageView.getDrawable();
         mMaxRange = Math.log(mSensor.getSensor().getMaximumRange());
+        mRefreshText = false;
         return view;
     }
 
