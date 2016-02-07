@@ -3,13 +3,6 @@
     <string name="title_activity_main">Sensors</string>
     <string name="title_activity_detail">Sensor</string>
 
-    <string name="accelerometer_string">accelerometer</string>
-    <string name="gyroscope_string">gyroscope</string>
-    <string name="magnetic_field_string">magnetic field sensor</string>
-    <string name="ambient_temperature_string">ambient temperature sensor</string>
-    <string name="proximity_string">proximity sensor</string>
-    <string name="gravity_string">gravity sensor</string>
-
     <string name="reading_one">First value</string>
     <string name="reading_two">Second value</string>
     <string name="reading_three">Third value</string>
@@ -28,7 +21,43 @@
 
     <string name="light_string">light sensor</string>
     <string name="light_detail_text">Displays ambient light level in SI lux units.</string>
-    <string name="light_raw_format">[ %1$.1f ]</string>
+    <string name="light_raw_format" translatable="false">[ %1$.1f ]</string>
+
+    <string name="humidity_string">humidity sensor</string>
+    <string name="humidity_detail_text">Relative ambient humidity is \%%1$.2f.</string>
+    <string name="humidity_raw_format" translatable="false">[ %1$.2f ]</string>
+
+    <string name="rotation_string">rotation sensor</string>
+    <string name="rotation_detail_text">Rotation details.</string>
+    <string name="rotation_raw_format" translatable="false">[ %1$.2f, %2$.2f, %3$.2f, %4$.2f, %5$.2f ]</string>
+
+    <string name="linear_acceleration_string">linear acceleration sensor</string>
+    <string name="linear_acceleration_detail_text">A three dimensional vector indicating acceleration along each device axis, not including gravity. All values have units of m/s^2.</string>
+    <string name="linear_acceleration_raw_format" translatable="false">[ %1$.2f, %2$.2f, %3$.2f ]</string>
+
+    <string name="gravity_string">gravity sensor</string>
+    <string name="gravity_detail_text">A three dimensional vector indicating the direction and magnitude of gravity. Units are m/s^2.</string>
+    <string name="gravity_raw_format" translatable="false">[ %1$.2f, %2$.2f, %3$.2f ]</string>
+
+    <string name="proximity_string">proximity sensor</string>
+    <string name="proximity_detail_text">Proximity sensor distance measured in centimeters.</string>
+    <string name="proximity_raw_format" translatable="false">[ %1$.2f ]</string>
+
+    <string name="ambient_temperature_string">ambient temperature sensor</string>
+    <string name="ambient_temperature_detail_text">Ambient temperature is %1$.2f degree Celcius.</string>
+    <string name="ambient_temperature_raw_format" translatable="false">[ %1$.2f ]</string>
+
+    <string name="accelerometer_string">accelerometer</string>
+    <string name="accelerometer_detail_text">All values have units of m/s^2.</string>
+    <string name="accelerometer_raw_format" translatable="false">[ %1$.2f, %2$.2f, %3$.2f ]</string>
+
+    <string name="gyroscope_string">gyroscope</string>
+    <string name="gyroscope_detail_text">All values are in radians/second and measure the rate of rotation around the device\'s local X, Y and Z axis.</string>
+    <string name="gyroscope_raw_format" translatable="false">[ %1$.2f, %2$.2f, %3$.2f ]</string>
+
+    <string name="magnetic_field_string">magnetic field sensor</string>
+    <string name="magnetic_field_detail_text">All values are in micro-Tesla (uT) and measure the ambient magnetic field in the X, Y and Z axis.</string>
+    <string name="magnetic_field_raw_format" translatable="false">[ %1$.2f, %2$.2f, %3$.2f ]</string>
 
     <string name="hello_blank_fragment"></string>
 </resources>

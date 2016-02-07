@@ -3,13 +3,6 @@
     <string name="title_activity_main">Sensörler</string>
     <string name="title_activity_detail">Sensör</string>
 
-    <string name="accelerometer_string">accelerometer</string>
-    <string name="gyroscope_string">gyroscope</string>
-    <string name="magnetic_field_string">manyetik alan sensörü</string>
-    <string name="ambient_temperature_string">sıcaklık sensörü</string>
-    <string name="proximity_string">uzaklık sensörü</string>
-    <string name="gravity_string">yerçekimi sensörü</string>
-
     <string name="reading_one">Birinci değer</string>
     <string name="reading_two">İkinci değer</string>
     <string name="reading_three">Üçüncü değer</string>
@@ -26,6 +19,34 @@
 
     <string name="light_string">ışık sensörü</string>
     <string name="light_detail_text">Ortamdaki ışık şiddetini lux cinsinden verir.</string>
+
+    <string name="humidity_string">nemlilik sensörü</string>
+    <string name="humidity_detail_text">Ortamdaki nem yüzdesi %1$.2f.</string>
+
+    <string name="rotation_string">rotasyon sensörü</string>
+    <string name="rotation_detail_text">Detaylar yeni sürümde gelecek inşaallah, bu biraz karışık.</string>
+
+    <string name="linear_acceleration_string">lineer hızlanma sensörü</string>
+    <string name="linear_acceleration_detail_text">Yerçekimi etkisinden arındırılmış, üç boyutlu hızlanma vektörü.
+        Birimler m/s^2\'dir.</string>
+
+    <string name="gravity_string">yerçekimi sensörü</string>
+    <string name="gravity_detail_text">Yerçekimini temsil eden vektör. Birimler m/s^2\'dir.</string>
+
+    <string name="proximity_string">uzaklık sensörü</string>
+    <string name="proximity_detail_text">Santimetre cinsinden uzaklık.</string>
+
+    <string name="ambient_temperature_string">sıcaklık sensörü</string>
+    <string name="ambient_temperature_detail_text">Sıcaklık %1$.2f derece.</string>
+
+    <string name="accelerometer_string">hızlanma sensörü</string>
+    <string name="accelerometer_detail_text">Birimler m/s^2\'dir.</string>
+
+    <string name="gyroscope_string">gyroscope</string>
+    <string name="gyroscope_detail_text">Bütün birimler radyan/saniye cinsindendir. Cihazın X-Y-Z eksenlerinde yaptığı dönüşü temsil eder.</string>
+
+    <string name="magnetic_field_string">manyetik alan sensörü</string>
+    <string name="magnetic_field_detail_text">X-Y-Z eksenlerindeki manyetik alanı micro-Tesla (uT) cinsinden ölçer.</string>
 
     <string name="hello_blank_fragment"></string>
 </resources>

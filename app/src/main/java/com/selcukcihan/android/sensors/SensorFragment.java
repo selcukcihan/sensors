@@ -82,6 +82,7 @@ public abstract class SensorFragment extends Fragment {
                 fragment = new LuminescenceFragment();
                 break;
             default:
+                fragment = new PlaceholderFragment();
                 break;
         }
         if (fragment != null) {

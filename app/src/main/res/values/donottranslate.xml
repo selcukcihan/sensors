@@ -10,5 +10,8 @@
         <item>8:proximity</item><!--TYPE_PROXIMITY-->
         <item>9:gravity</item><!--TYPE_GRAVITY-->
         <item>5:light</item><!--TYPE_LIGHT-->
+        <item>11:rotation</item><!--TYPE_ROTATION_VETOR-->
+        <item>10:linear_acceleration</item><!--TYPE_LINEAR_ACCELERATION-->
+        <item>12:humidity</item><!--TYPE_RELATIVE_HUMIDITY-->
     </string-array>
 </resources>

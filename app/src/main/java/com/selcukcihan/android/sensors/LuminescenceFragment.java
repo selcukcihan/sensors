@@ -6,20 +6,23 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
 
 public class LuminescenceFragment extends SensorFragment {
 
     private ImageView mImageView;
-    private GradientDrawable mGradient;
+
+    private GradientDrawable mGradientYellow;
+    private GradientDrawable mGradientWhite;
+
     private double mMaxRange = 100;
+    private int[] mYellow;
+    private int[] mWhite;
 
     public LuminescenceFragment() {
     }
@@ -30,9 +33,12 @@ public class LuminescenceFragment extends SensorFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_luminescence, container, false);
         mImageView = (ImageView) view.findViewById(R.id.luminescence_circle);
-        mGradient = (GradientDrawable) mImageView.getDrawable();
+        mGradientYellow = (GradientDrawable) mImageView.getDrawable();
         mMaxRange = Math.log(mSensor.getSensor().getMaximumRange());
         mRefreshText = false;
+
+        mGradientWhite = (GradientDrawable)ResourcesCompat.getDrawable(getResources(), R.drawable.circle_white, null);
+
         return view;
     }
 
@@ -46,7 +52,18 @@ public class LuminescenceFragment extends SensorFragment {
             ratio = (Math.log(2) / mMaxRange) / 2;
         }
 
-        float newRadius = (float)(mImageView.getWidth() * ratio);
-        mGradient.setGradientRadius(newRadius);
+        if (ratio < 0.5) {
+            float newRadius = (float)(mImageView.getWidth() * ratio);
+            mGradientYellow.setGradientRadius(newRadius);
+            mImageView.setImageDrawable(mGradientYellow);
+        } else {
+            ratio = ratio - 0.5f;
+            if (ratio == 0) {
+                ratio = 0.001f;
+            }
+            float newRadius = (float)(mImageView.getWidth() * ratio);
+            mGradientWhite.setGradientRadius(newRadius);
+            mImageView.setImageDrawable(mGradientWhite);
+        }
     }
 }

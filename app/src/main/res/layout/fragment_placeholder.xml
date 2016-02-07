@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.selcukcihan.android.sensors.LuminescenceFragment">
+    tools:context="com.selcukcihan.android.sensors.PlaceholderFragment">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -15,11 +15,5 @@
             android:layout_gravity="center_horizontal"
             android:textColor="@color/primary_text"
             android:text="@string/hello_blank_fragment" />
-        <ImageView
-            android:id="@+id/luminescence_circle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/circle_yellow" />
     </LinearLayout>
 </FrameLayout>
