@@ -3,6 +3,8 @@ package com.selcukcihan.android.sensors;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.List;
 

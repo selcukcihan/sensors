@@ -51,19 +51,16 @@ public class LuminescenceFragment extends SensorFragment {
         } else if (ratio == 0) {
             ratio = (Math.log(2) / mMaxRange) / 2;
         }
-
-        if (ratio < 0.5) {
-            float newRadius = (float)(mImageView.getWidth() * ratio);
-            mGradientYellow.setGradientRadius(newRadius);
-            mImageView.setImageDrawable(mGradientYellow);
-        } else {
+        GradientDrawable grad = mGradientYellow;
+        if (ratio >= 0.5) {
             ratio = ratio - 0.5f;
-            if (ratio == 0) {
-                ratio = 0.001f;
-            }
-            float newRadius = (float)(mImageView.getWidth() * ratio);
-            mGradientWhite.setGradientRadius(newRadius);
-            mImageView.setImageDrawable(mGradientWhite);
+            grad = mGradientWhite;
         }
+        if (ratio <= 0) { // ratio > 0 olmak zorunda
+            ratio = 0.001f;
+        }
+        float newRadius = (float)(mImageView.getWidth() * ratio);
+        grad.setGradientRadius(newRadius);
+        mImageView.setImageDrawable(grad);
     }
 }

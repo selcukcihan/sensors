@@ -8,8 +8,11 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.ShareActionProvider;
@@ -22,6 +25,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class DetailActivity extends AppCompatActivity implements SensorEventListener {
     private SensorManager mSensorManager;
@@ -32,6 +37,11 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
     private String mSensorValues = "";
     private TextView mReadingsTextView;
     private float []mValues;
+
+
+    private SensorWrapper[] mSensors;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -74,13 +84,22 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+
         Intent intent = getIntent();
         Integer sensorType = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_SENSOR_TYPE));
         String sensorDescriptor = intent.getStringExtra(MainActivity.EXTRA_SENSOR_DESCRIPTOR);
-
-        mSensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
-        Sensor sensor = mSensorManager.getDefaultSensor(sensorType);
-        mSensor = new SensorWrapper(this, sensor, sensorDescriptor);
+        ArrayList<Integer> sensorsList = intent.getIntegerArrayListExtra(MainActivity.EXTRA_SENSOR_LIST);
+        mSensors = new SensorWrapper[sensorsList.size()];
+        int i = 0;
+        for(Integer id : sensorsList) {
+            Sensor sensor = mSensorManager.getDefaultSensor(sensorType);
+            mSensors[i] = new SensorWrapper(this, sensor, id.toString());
+            if (id == Integer.parseInt(sensorDescriptor)) {
+                mSensor = mSensors[i];
+            }
+            i++;
+        }
 
         TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(mSensor.getLocalizedName());
@@ -101,6 +120,10 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
             fragmentTransaction.add(R.id.detail_fragment, fragment);
             fragmentTransaction.commit();
         }
+
+        mPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
     }
 
     protected void onResume() {
@@ -134,5 +157,21 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         mReadingsTextView.setText(rawReadings);
         mShareIntent.removeExtra(Intent.EXTRA_TEXT); // Remove previously set values from the intent
         mShareIntent.putExtra(Intent.EXTRA_TEXT, String.format(mShareString, mSensor.getLocalizedName(), mSensorValues));
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return new ScreenSlidePageFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
     }
 }
