@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class DetailActivity extends AppCompatActivity implements SensorEventListener {
@@ -90,9 +91,11 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         setContentView(R.layout.activity_detail);
 
         mToolbar = (Toolbar) findViewById(R.id.custom_toolbar);
-        mToolbar.setTitle("");
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (mToolbar != null) {
+            mToolbar.setTitle("");
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         Intent intent = getIntent();
         Integer sensorType = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_SENSOR_TYPE));
@@ -139,29 +142,48 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         mShareIntent.putExtra(Intent.EXTRA_TEXT, String.format(mShareString, mSensor.getLocalizedName(), mSensorValues));
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
+        private HashMap<Integer, SensorFragment> mFragments;
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
+            mFragments = new HashMap<Integer, SensorFragment>();
         }
 
         private void renderMetaData() {
-            ((ImageView) findViewById(R.id.sensor_toolbar_icon)).setImageResource(mSensor.getImageId());
-            TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
-            toolbarTitle.setText(mSensor.getLocalizedName());
+            if (mToolbar != null) {
+                ((ImageView) findViewById(R.id.sensor_toolbar_icon)).setImageResource(mSensor.getImageId());
+                TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
+                toolbarTitle.setText(mSensor.getLocalizedName());
+            }
         }
 
         @Override
         public Fragment getItem(int position) {
-            mSensor = mSensors.getSensor(position);
-            mFragment = SensorFragment.newInstance(mSensor.getType(), mSensor.getSensorDescriptor());
-
-            renderMetaData();
-            return mFragment;
+            SensorFragment fragment = SensorFragment.newInstance(mSensor.getType(), mSensor.getSensorDescriptor());
+            mFragments.put(position, fragment);
+            return fragment;
         }
 
         @Override
         public int getCount() {
             return mSensors.count();
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            mSensor = mSensors.getSensor(position);
+            mFragment = mFragments.get(position);
+            renderMetaData();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
         }
     }
 }
