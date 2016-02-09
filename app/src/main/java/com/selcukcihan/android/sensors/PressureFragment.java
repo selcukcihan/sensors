@@ -16,7 +16,6 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -72,8 +71,8 @@ public class PressureFragment extends SensorFragment {
     }
 
     @Override
-    public View onAfterCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onBeforeCreateView(LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pressure, container, false);
         mChart = (BarChart) view.findViewById(R.id.pressure_chart);
@@ -97,7 +96,7 @@ public class PressureFragment extends SensorFragment {
             set1.setColors(ColorTemplate.PASTEL_COLORS);
             set1.setDrawValues(false);
 
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+            ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
             dataSets.add(set1);
 
             BarData data = new BarData(xVals, dataSets);

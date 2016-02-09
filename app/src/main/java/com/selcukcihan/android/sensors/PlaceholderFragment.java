@@ -14,8 +14,8 @@ public class PlaceholderFragment extends SensorFragment {
     }
 
     @Override
-    public View onAfterCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onBeforeCreateView(LayoutInflater inflater, ViewGroup container,
+                                   Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_placeholder, container, false);
         return view;

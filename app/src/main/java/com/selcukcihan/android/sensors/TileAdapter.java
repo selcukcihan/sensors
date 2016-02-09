@@ -15,15 +15,15 @@ import java.util.HashMap;
 
 public class TileAdapter extends BaseAdapter {
     private Context mContext;
-    private final SensorWrapper[] mValues;
+    private final SensorContainer mSensors;
 
-    public TileAdapter(Context context, SensorWrapper[] values) {
+    public TileAdapter(Context context, SensorContainer sensors) {
         mContext = context;
-        mValues = values;
+        mSensors = sensors;
     }
 
     public int getCount() {
-        return mValues.length;
+        return mSensors.count();
     }
 
     public Object getItem(int position) {
@@ -43,8 +43,9 @@ public class TileAdapter extends BaseAdapter {
         TextView textView = (TextView) rowView.findViewById(R.id.sensor_label);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.sensor_icon);
 
-        textView.setText(mValues[position].getLocalizedName());
-        imageView.setImageResource(mValues[position].getImageId());
+        SensorWrapper sensor = mSensors.getSensor(position);
+        textView.setText(sensor.getLocalizedName());
+        imageView.setImageResource(sensor.getImageId());
 
         return rowView;
     }
