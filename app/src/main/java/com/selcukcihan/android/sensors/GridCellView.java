@@ -27,17 +27,4 @@ public class GridCellView extends RelativeLayout
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     }
-/*
-    @Override
-    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec)
-    {
-        final int width = getDefaultSize(getSuggestedMinimumWidth(),widthMeasureSpec);
-        setMeasuredDimension(width, width);
-    }
-
-    @Override
-    protected void onSizeChanged(final int w, final int h, final int oldw, final int oldh)
-    {
-        super.onSizeChanged(w, w, oldw, oldh);
-    }*/
 }

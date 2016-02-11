@@ -17,18 +17,17 @@ public class SensorWrapper {
     private String mLocalizedName = null;
     private String mReadingFormatString = null;
     private String mRawFormatString = null;
+    private Integer mSensorType;
 
-    private Integer mIndex = -1;
-
-    public SensorWrapper(Context context, Sensor sensor, String sensorDescriptor, Integer index) {
+    public SensorWrapper(Context context, Sensor sensor, String sensorDescriptor) {
         mContext = context;
         mSensor = sensor;
         mSensorDescriptor = sensorDescriptor;
-        mIndex = index;
     }
 
     public SensorWrapper(Context context, Integer sensorType, String sensorDescriptor) {
         mContext = context;
+        mSensorType = sensorType;
         SensorManager smm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         mSensor = smm.getDefaultSensor(sensorType);
         mSensorDescriptor = sensorDescriptor;
@@ -42,7 +41,7 @@ public class SensorWrapper {
     }
 
     public String getName() {
-        return mSensor.getName();
+        return (mSensor != null ? mSensor.getName() : "");
     }
 
     public String getVendor() { return mSensor.getVendor(); }
@@ -52,10 +51,6 @@ public class SensorWrapper {
             mImageId = mContext.getResources().getIdentifier(mSensorDescriptor, "mipmap", mContext.getPackageName());
         }
         return mImageId;
-    }
-
-    public int getIndex() {
-        return mIndex;
     }
 
     public String getLocalizedName() {

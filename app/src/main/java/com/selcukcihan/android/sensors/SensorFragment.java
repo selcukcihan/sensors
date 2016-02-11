@@ -18,31 +18,23 @@ public abstract class SensorFragment extends Fragment {
     protected static final String ARG_PARAM2 = "param2";
 
     protected SensorWrapper mSensor;
-    protected boolean mRefreshText = true;
 
     private Integer mSensorType;
     private String mSensorDescriptor;
 
     private TextView mTextView;
     private View mView;
-    private TextView mReadingsTextView;
 
-    abstract View onBeforeCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
+    protected abstract View onBeforeCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
-    abstract void onRefresh(Object [] values);
+    protected abstract void onRefresh(Object [] values);
 
     private void internalRefresh(Object [] values) {
-        if (mRefreshText) {
-            if (mTextView != null) {
-                if (values.length > 0) {
-                    mTextView.setText(String.format(mSensor.getDetailText(), values));
-                } else {
-                    mTextView.setText(mSensor.getDetailText());
-                }
-            }
-            if (mReadingsTextView != null && values.length > 0) {
-                String valuesString = TextUtils.join(" | ", values);
-                mReadingsTextView.setText(valuesString);
+        if (mTextView != null) {
+            if (values.length > 0) {
+                mTextView.setText(String.format(mSensor.getDetailText(), values));
+            } else {
+                mTextView.setText(mSensor.getDetailText());
             }
         }
     }
@@ -50,10 +42,6 @@ public abstract class SensorFragment extends Fragment {
     public void refresh(Object [] values) {
         onRefresh(values);
         internalRefresh(values);
-    }
-
-    public String getRawReadings(Float [] values) {
-        return String.format(mSensor.getRawFormat(), (Object)values);
     }
 
     @Override
@@ -78,10 +66,7 @@ public abstract class SensorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = onBeforeCreateView(inflater, container, savedInstanceState);
-        mReadingsTextView = (TextView)mView.findViewById(R.id.readings);
         mTextView = (TextView) mView.findViewById(R.id.readings_detail);
-
-        ((TextView) mView.findViewById(R.id.sensor_name_vendor)).setText(mSensor.getName() + " {" + mSensor.getVendor() + "}");
 
         internalRefresh(new Object[]{});
 

@@ -49,4 +49,5 @@
     <string name="magnetic_field_detail_text">X-Y-Z eksenlerindeki manyetik alanı micro-Tesla (uT) cinsinden ölçer.</string>
 
     <string name="hello_blank_fragment"></string>
+    <string name="about">Hakkında</string>
 </resources>

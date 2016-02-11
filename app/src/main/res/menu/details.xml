@@ -6,4 +6,7 @@
         app:showAsAction="ifRoom"
         android:title="@string/share"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+    <item android:id="@+id/about_sensor"
+        android:title="@string/about_sensor"
+        app:showAsAction="never" />
 </menu>

@@ -35,7 +35,6 @@ public class LuminescenceFragment extends SensorFragment {
         mImageView = (ImageView) view.findViewById(R.id.luminescence_circle);
         mGradientYellow = (GradientDrawable) mImageView.getDrawable();
         mMaxRange = Math.log(mSensor.getSensor().getMaximumRange());
-        mRefreshText = false;
 
         mGradientWhite = (GradientDrawable)ResourcesCompat.getDrawable(getResources(), R.drawable.circle_white, null);
 

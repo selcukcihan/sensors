@@ -2,6 +2,7 @@ package com.selcukcihan.android.sensors;
 
 import android.content.Context;
 import android.hardware.Sensor;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class TileAdapter extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.grid_cell_sensor, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.sensor_label);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.sensor_icon);
+        rowView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light));
 
         SensorWrapper sensor = mSensors.getSensor(position);
         textView.setText(sensor.getLocalizedName());

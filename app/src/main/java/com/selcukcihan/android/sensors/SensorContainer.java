@@ -1,14 +1,12 @@
 package com.selcukcihan.android.sensors;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class SensorContainer {
 
     public void registerListener(SensorWrapper sensor) {
         this.unregisterListener();
-        mSensorManager.registerListener((SensorEventListener)mContext, sensor.getSensor(), SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener((SensorEventListener) mContext, sensor.getSensor(), SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void unregisterListener() {
@@ -43,12 +41,14 @@ public class SensorContainer {
         }
         List<Sensor> allSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
         List<SensorWrapper> filteredSensors = new ArrayList<SensorWrapper>();
+        List<SensorWrapper> unavailableSensors = new ArrayList<SensorWrapper>();
 
-        Integer i = 0;
         for(Sensor s : allSensors) {
             if (sensorMap.containsKey(s.getType())) {
-                filteredSensors.add(new SensorWrapper(mContext, s, sensorMap.get(s.getType()), i));
-                i++;
+                filteredSensors.add(new SensorWrapper(mContext, s, sensorMap.get(s.getType())));
+            }
+            else {
+                unavailableSensors.add(new SensorWrapper(mContext, s, sensorMap.get(s.getType())));
             }
         }
         mSensors = filteredSensors.toArray(new SensorWrapper[filteredSensors.size()]);

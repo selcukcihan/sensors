@@ -1,51 +1,42 @@
 package com.selcukcihan.android.sensors;
 
-import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class DetailActivity extends AppCompatActivity implements SensorEventListener {
     private SensorContainer mSensors;
     private SensorWrapper mSensor;
-    private ShareActionProvider mShareActionProvider;
-    private Intent mShareIntent;
     private String mShareString = "{0}{1}";
     private String mSensorValues = "";
     private float []mValues;
-    private Toolbar mToolbar;
-
-
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
 
     private SensorFragment mFragment;
 
+    private Toolbar mToolbar;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
+    private TextView mReadingsTextView;
+
+    private ShareActionProvider mShareActionProvider;
+    private Intent mShareIntent;
     /*
     public void showPopup(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -76,14 +67,13 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
 
         return true;
     }
-/*
+
     private void renderMetaData() {
         TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
         toolbarTitle.setText(mSensor.getLocalizedName());
-        ((ImageView)findViewById(R.id.sensor_toolbar_icon)).setImageResource(mSensor.getImageId());
-
-        ((TextView)findViewById(R.id.sensor_name_vendor)).setText(mSensor.getName() + " {" + mSensor.getVendor() + "}");
-    }*/
+        ((ImageView) findViewById(R.id.sensor_toolbar_icon)).setImageResource(mSensor.getImageId());
+        ((TextView) findViewById(R.id.sensor_name_vendor)).setText(mSensor.getName() + " {" + mSensor.getVendor() + "}");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +81,11 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         setContentView(R.layout.activity_detail);
 
         mToolbar = (Toolbar) findViewById(R.id.custom_toolbar);
-        if (mToolbar != null) {
-            mToolbar.setTitle("");
-            setSupportActionBar(mToolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mReadingsTextView = (TextView) findViewById(R.id.readings);
 
         Intent intent = getIntent();
         Integer sensorType = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_SENSOR_TYPE));
@@ -103,15 +93,16 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
 
         mSensors = new SensorContainer(this);
         mSensor = mSensors.findByType(sensorType);
-        //renderMetaData();
+        renderMetaData();
 
         mShareString = getResources().getString(R.string.share_data);
         initializeShareIntent();
 
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setCurrentItem(mSensor.getIndex());
+        mFragment = SensorFragment.newInstance(sensorType, sensorDescriptor);
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.detail_fragment, mFragment);
+        fragmentTransaction.commit();
     }
 
     protected void onResume() {
@@ -137,53 +128,10 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         if (mFragment != null) {
             mFragment.refresh(boxed);
         }
+        String formattedString = String.format(mSensor.getRawFormat(), boxed);
+        mReadingsTextView.setText(formattedString);
 
         mShareIntent.removeExtra(Intent.EXTRA_TEXT); // Remove previously set values from the intent
         mShareIntent.putExtra(Intent.EXTRA_TEXT, String.format(mShareString, mSensor.getLocalizedName(), mSensorValues));
-    }
-
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
-        private HashMap<Integer, SensorFragment> mFragments;
-        public ScreenSlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-            mFragments = new HashMap<Integer, SensorFragment>();
-        }
-
-        private void renderMetaData() {
-            if (mToolbar != null) {
-                ((ImageView) findViewById(R.id.sensor_toolbar_icon)).setImageResource(mSensor.getImageId());
-                TextView toolbarTitle = (TextView) mToolbar.findViewById(R.id.toolbar_title);
-                toolbarTitle.setText(mSensor.getLocalizedName());
-            }
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            SensorFragment fragment = SensorFragment.newInstance(mSensor.getType(), mSensor.getSensorDescriptor());
-            mFragments.put(position, fragment);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return mSensors.count();
-        }
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            mSensor = mSensors.getSensor(position);
-            mFragment = mFragments.get(position);
-            renderMetaData();
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
-        }
     }
 }
