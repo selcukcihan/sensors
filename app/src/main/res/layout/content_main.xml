@@ -16,8 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="@integer/numberOfColumns"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
+        android:verticalSpacing="5sp"
+        android:horizontalSpacing="5sp"
         android:stretchMode="columnWidth"
         android:gravity="center"
         android:id="@+id/gridView"></GridView>

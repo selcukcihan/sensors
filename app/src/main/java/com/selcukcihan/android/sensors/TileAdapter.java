@@ -43,7 +43,7 @@ public class TileAdapter extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.grid_cell_sensor, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.sensor_label);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.sensor_icon);
-        rowView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light));
+        //rowView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.light));
 
         SensorWrapper sensor = mSensors.getSensor(position);
         textView.setText(sensor.getLocalizedName());
