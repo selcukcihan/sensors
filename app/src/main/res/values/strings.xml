@@ -61,5 +61,6 @@
 
     <string name="hello_blank_fragment"></string>
     <string name="about">About</string>
-    <string name="about_sensor">Information</string>
+    <string name="about_sensor">Sensor card</string>
+    <string name="about_sensor_string">Lists the sensors of your device and displays readings from them.</string>
 </resources>

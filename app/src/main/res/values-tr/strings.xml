@@ -50,4 +50,6 @@
 
     <string name="hello_blank_fragment"></string>
     <string name="about">Hakkında</string>
+    <string name="about_sensor">Sensör karnesi</string>
+    <string name="about_sensor_string">Cihazınızdaki sensörleri listeler ve bu sensörlerden okunan değerleri gösterir.</string>
 </resources>

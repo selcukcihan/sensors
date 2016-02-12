@@ -105,6 +105,20 @@ public class DetailActivity extends AppCompatActivity implements SensorEventList
         fragmentTransaction.commit();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.about_sensor:
+                SensorDialogFragment dialog = SensorDialogFragment.newInstance(mSensor.getType());
+                dialog.show(getSupportFragmentManager(), SensorDialogFragment.class.getSimpleName());
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     protected void onResume() {
         super.onResume();
         mSensors.registerListener(mSensor);
