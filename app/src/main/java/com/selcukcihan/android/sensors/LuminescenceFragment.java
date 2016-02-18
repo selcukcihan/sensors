@@ -59,6 +59,9 @@ public class LuminescenceFragment extends SensorFragment {
             ratio = 0.001f;
         }
         float newRadius = (float)(mImageView.getWidth() * ratio);
+        if (newRadius <= 0) {
+            newRadius = 1;
+        }
         grad.setGradientRadius(newRadius);
         mImageView.setImageDrawable(grad);
     }
